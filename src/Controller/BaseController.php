@@ -13,6 +13,10 @@ class BaseController extends AbstractController
      */
     public function liveSearchInputAction(): Response
     {
-        return $this->render('live-search-input-example.html.twig');
+        return $this->render('live-search-input-example.html.twig', array(
+            'props'=>array(
+                'habitissimoApiBaseUrl'=>$_ENV['API'],
+            ),
+        ));
     }
 }
