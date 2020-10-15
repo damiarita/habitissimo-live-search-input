@@ -10,23 +10,38 @@ class LiveSearchInput extends React.Component{
             options: undefined
         };
 
-        const autocompleteApiUrl = props.habitissimoApiBaseUrl + 'autocomplete/category?tree_level[]=1&tree_level[]=2';
-        const autocompleteOptionsPromise = getAjaxPromise({
-            url: autocompleteApiUrl,
-        });
-        const that = this;
-        autocompleteOptionsPromise.then(function(options){
-            that.setState({options: options});
-        });
+        this.autocompleteApiUrl = props.habitissimoApiBaseUrl + 'autocomplete/category?tree_level[]=1&tree_level[]=2';
+
+        this.getAutocompleteOptions=this.getAutocompleteOptions.bind(this);
 
     }
 
     render(){
         return (
             <div>
-                {this.state.options?this.state.options:'Waiting...'}
+                <div>
+                    <label htmlFor="id-input">
+                        Encuentra profesionales de confianza
+                    </label>
+                    <input id="id-input" onFocus={this.getAutocompleteOptions}/>
+                </div>
+                <div>
+                    {this.state.options?JSON.stringify(this.state.options[0]):'Waiting...'}
+                </div>
             </div>
         );
+    }
+
+    getAutocompleteOptions(){
+        if( this.state.options===undefined){
+            const autocompleteOptionsPromise = getAjaxPromise({
+                url: this.autocompleteApiUrl,
+            });
+            const that = this;
+            autocompleteOptionsPromise.then(function(options){
+                that.setState({options: JSON.parse(options)});
+            });
+        }
     }
 }
 LiveSearchInput.propTypes = {
