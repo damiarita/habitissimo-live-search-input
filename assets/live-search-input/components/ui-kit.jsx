@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LiveSearchOptions from './options';
+import LiveSearchLens from './lens';
+import LiveSearchSpinner from './spinner';
 
 class LiveSearchUiKit extends React.Component{
     constructor(props){
@@ -14,8 +16,11 @@ class LiveSearchUiKit extends React.Component{
                 <label htmlFor={this.props.inputId} className="livesearch-label">
                    {this.props.labelContent}
                 </label>
-                <input  className="livesearch-input" placeholder={this.props.inputPlaceHolder} id={this.props.inputId} value={this.props.inputContent} onFocus={this.props.onFocusIn} onBlur={this.props.onFocusOut} onChange={this.props.onInputContentChange} />
-                {(this.minNumChars<=this.props.inputContent.length && this.props.hasFocus)?<LiveSearchOptions options={this.getFilteredOptions()} inputContent={this.props.inputContent} />:''}
+                <div className="livesearch-wrapper">
+                    <input  className="livesearch-input" placeholder={this.props.inputPlaceHolder} id={this.props.inputId} value={this.props.inputContent} onFocus={this.props.onFocusIn} onBlur={this.props.onFocusOut} onChange={this.props.onInputContentChange} />
+                    {this.props.isLoading?<LiveSearchSpinner/>:<LiveSearchLens />}
+                    {(this.minNumChars<=this.props.inputContent.length && this.props.hasFocus)?<LiveSearchOptions options={this.getFilteredOptions()} inputContent={this.props.inputContent} />:''}
+                </div>
             </div>
         );
     }

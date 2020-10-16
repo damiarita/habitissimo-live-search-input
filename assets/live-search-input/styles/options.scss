@@ -1,3 +1,16 @@
-ul{
-    color: blue;
+.livesearch .livesearch-option{
+    color: $gray-dark;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 10px 1em;
+    cursor: pointer;
+
+    &:hover{
+        background-color: $gray-lightest;
+    }
+
+    .livesearch-parentName{
+        font-size: 0.87em;
+        color: $gray;
+    }
 }
