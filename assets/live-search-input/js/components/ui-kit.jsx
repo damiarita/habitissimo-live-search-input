@@ -24,6 +24,7 @@ class LiveSearchUiKit extends React.Component{
     }
 
     render(){
+        const filteredOptions = this.getFilteredOptions();
         return (
             <div>
                 <div>
@@ -31,7 +32,7 @@ class LiveSearchUiKit extends React.Component{
                         Encuentra profesionales de confianza
                     </label>
                     <input id={this.props.inputId} value={this.state.inputContent} onFocus={this.getAutocompleteOptions} onChange={this.onInputContentChange} />
-                    {(this.state.options && this.state.options.length>0)?<LiveSearchOptions options={this.state.options} />:''}
+                    {filteredOptions.length>0?<LiveSearchOptions options={filteredOptions} />:''}
                 </div>
                 <div>
                     {this.state.options?JSON.stringify(this.state.options[0]):(this.state.isLoading?'Waiting...':'')}
@@ -90,6 +91,24 @@ class LiveSearchUiKit extends React.Component{
         return function(){
             this.optionSelectedCallBack(id, normalizedName, name);
         }.bind(this);
+    }
+
+    getFilteredOptions(){
+        const inputContentLower = this.state.inputContent.toLowerCase();
+        if( this.state.options ){
+            return this.state.options.filter(function(option){
+                if(option.name.toLowerCase().indexOf(inputContentLower)>=0){ //inputContentLower is included in option.name
+                    return true;
+                }
+                if(option.parentName){ //If the option has a parentName
+                    if(option.parentName.toLowerCase().indexOf(inputContentLower)>=0){ //inputContentLower is included in option.parentName
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }
+        return Array();
     }
 }
 LiveSearchUiKit.propTypes = {
