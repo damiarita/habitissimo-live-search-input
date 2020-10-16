@@ -24,14 +24,13 @@ class LiveSearchUiKit extends React.Component{
     }
 
     render(){
-        const filteredOptions = this.getFilteredOptions();
         return (
             <div>
                 <label htmlFor={this.props.inputId}>
                     Encuentra profesionales de confianza
                 </label>
                 <input id={this.props.inputId} value={this.state.inputContent} onFocus={this.getAutocompleteOptions} onChange={this.onInputContentChange} />
-                {filteredOptions.length>0?<LiveSearchOptions options={filteredOptions} />:''}
+                <LiveSearchOptions options={this.getFilteredOptions()} inputContent={this.state.inputContent} />
             </div>
         );
     }
@@ -89,8 +88,8 @@ class LiveSearchUiKit extends React.Component{
     }
 
     getFilteredOptions(){
-        const inputContentLower = this.state.inputContent.toLowerCase();
         if( this.state.options ){
+            const inputContentLower = this.state.inputContent.toLowerCase();
             return this.state.options.filter(function(option){
                 if(option.name.toLowerCase().indexOf(inputContentLower)>=0){ //inputContentLower is included in option.name
                     return true;
