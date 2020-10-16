@@ -6,6 +6,7 @@ class LiveSearchUiKit extends React.Component{
     constructor(props){
         super(props);
         this.onFocus=this.props.onFocus||function(){};
+        this.minNumChars=this.props.minNumChars||2;
     }
 
     render(){
@@ -15,7 +16,7 @@ class LiveSearchUiKit extends React.Component{
                     Encuentra profesionales de confianza
                 </label>
                 <input id={this.props.inputId} value={this.props.inputContent} onFocus={this.onFocus} onChange={this.props.onInputContentChange} />
-                <LiveSearchOptions options={this.getFilteredOptions()} inputContent={this.props.inputContent} />
+                {(this.props.searchIsActive && this.minNumChars<=this.props.inputContent.length)?<LiveSearchOptions options={this.getFilteredOptions()} inputContent={this.props.inputContent} />:''}
             </div>
         );
     }
@@ -51,6 +52,8 @@ LiveSearchUiKit.propTypes = {
     ),
     isLoading: PropTypes.bool.isRequired,
     inputContent: PropTypes.string.isRequired,
+    searchIsActive: PropTypes.bool.isRequired,
+    minNumChars: PropTypes.number,
     onInputContentChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
   };

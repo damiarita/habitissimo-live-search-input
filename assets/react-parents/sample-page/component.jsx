@@ -11,6 +11,7 @@ class SamplePage extends React.Component{
             liveSearchOptions: undefined,
             liveSearchIsLoading: false,
             liveSearchInputContent: '',
+            liveSearchActiveSearch: false,
         };
 
         this.liveSearchAutocompleteApiUrl = props.habitissimoApiBaseUrl + 'autocomplete/category?tree_level[]=1&tree_level[]=2';
@@ -26,6 +27,8 @@ class SamplePage extends React.Component{
             options={this.state.liveSearchOptions}
             isLoading={this.state.liveSearchIsLoading}
             inputContent={this.state.liveSearchInputContent}
+            searchIsActive={this.state.liveSearchActiveSearch}
+            minNumChars={1}
             onInputContentChange={this.liveSearchInputContentChange}
             onFocus={this.getLiveSearchAutocompleteOptions}
         />
@@ -76,12 +79,19 @@ class SamplePage extends React.Component{
 
     getOnSelectedOptionCallback(id, normalizedName, name){
         return function(){
+            this.setState({
+                liveSearchInputContent: name,
+                liveSearchActiveSearch: false,
+            });
             console.log(id, normalizedName, name); //As an example, we put console.log It is asumed that when an option is selected,there has to be some kind of reaction by the rest of the page
-        }
+        }.bind(this);
     }
 
     liveSearchInputContentChange(e){
-        this.setState({liveSearchInputContent: e.target.value});
+        this.setState({
+            liveSearchInputContent: e.target.value,
+            liveSearchActiveSearch: true,
+        });
     }
 }
 SamplePage.propTypes = {
