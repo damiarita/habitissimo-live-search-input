@@ -27,16 +27,11 @@ class LiveSearchUiKit extends React.Component{
         const filteredOptions = this.getFilteredOptions();
         return (
             <div>
-                <div>
-                    <label htmlFor={this.props.inputId}>
-                        Encuentra profesionales de confianza
-                    </label>
-                    <input id={this.props.inputId} value={this.state.inputContent} onFocus={this.getAutocompleteOptions} onChange={this.onInputContentChange} />
-                    {filteredOptions.length>0?<LiveSearchOptions options={filteredOptions} />:''}
-                </div>
-                <div>
-                    {this.state.options?JSON.stringify(this.state.options[0]):(this.state.isLoading?'Waiting...':'')}
-                </div>
+                <label htmlFor={this.props.inputId}>
+                    Encuentra profesionales de confianza
+                </label>
+                <input id={this.props.inputId} value={this.state.inputContent} onFocus={this.getAutocompleteOptions} onChange={this.onInputContentChange} />
+                {filteredOptions.length>0?<LiveSearchOptions options={filteredOptions} />:''}
             </div>
         );
     }
