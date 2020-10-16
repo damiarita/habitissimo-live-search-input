@@ -10,7 +10,7 @@ class LiveSearchOptions extends React.Component{
         const optionComponents = Array();
         const that = this;
         this.props.options.forEach(function(option){
-            optionComponents.push(<li onClick={that.props.optionSelectedCallbackGenerator(option.id, option.normalizedName, option.name)}>{option.name}{option.parentName?(' en '+option.parentName):''}</li>);
+            optionComponents.push(<li key={option.id} onClick={option.onClickCallBack}>{option.name}{option.parentName?(' en '+option.parentName):''}</li>);
         });
         return(
             <ul>
@@ -28,9 +28,9 @@ LiveSearchOptions.propTypes = {
             parentName: PropTypes.string,
             id: PropTypes.string.isRequired,
             normalizedName: PropTypes.string.isRequired,
+            onClickCallBack: PropTypes.func.isRequired,
         })
     ).isRequired,
-    optionSelectedCallbackGenerator: PropTypes.func,
   };
 
 export default LiveSearchOptions;

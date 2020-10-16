@@ -15,7 +15,7 @@ class LiveSearchUiKit extends React.Component{
 
         this.autocompleteApiUrl = props.habitissimoApiBaseUrl + 'autocomplete/category?tree_level[]=1&tree_level[]=2';
 
-        this.optionSelectedCallBack = this.props.optionSelectedCallBack||function(id){};
+        this.optionSelectedCallBack = this.props.optionSelectedCallBack||function(id, normalizedName, name){};
 
         this.getAutocompleteOptions=this.getAutocompleteOptions.bind(this);
         this.onInputContentChange=this.onInputContentChange.bind(this);
@@ -31,7 +31,7 @@ class LiveSearchUiKit extends React.Component{
                         Encuentra profesionales de confianza
                     </label>
                     <input id={this.props.inputId} value={this.state.inputContent} onFocus={this.getAutocompleteOptions} onChange={this.onInputContentChange} />
-                    {(this.state.options && this.state.options.length>0)?<LiveSearchOptions options={this.state.options} optionSelectedCallbackGenerator={this.getOnSelectedOptionCallback} />:''}
+                    {(this.state.options && this.state.options.length>0)?<LiveSearchOptions options={this.state.options} />:''}
                 </div>
                 <div>
                     {this.state.options?JSON.stringify(this.state.options[0]):(this.state.isLoading?'Waiting...':'')}
@@ -58,6 +58,7 @@ class LiveSearchUiKit extends React.Component{
                         name:responseOption.name,
                         id: responseOption.id,
                         normalizedName: responseOption.normalized_name,
+                        onClickCallBack: that.getOnSelectedOptionCallback(responseOption.id, responseOption.normalized_name, responseOption.name),
                     });
                     if( responseOption.children ){
                         responseOption.children.forEach(function(responseSubOption){
@@ -66,6 +67,7 @@ class LiveSearchUiKit extends React.Component{
                                 id: responseSubOption.id,
                                 normalizedName: responseSubOption.normalized_name,
                                 parentName: responseOption.name,
+                                onClickCallBack: that.getOnSelectedOptionCallback(responseSubOption.id, responseSubOption.normalized_name, responseSubOption.name),
                             });
                         });
                     }
