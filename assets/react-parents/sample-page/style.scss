@@ -1,7 +1,7 @@
 @import '../../css/colors.scss';
 
 html {
-    background-image: repeating-linear-gradient(to left top, $gray-dark 0 5px, $gray-light 5px 10px);
+    background-image: repeating-linear-gradient(15deg, gray 0 3px, $gray-lightest 3px 8px);
 }
 
 #sample-page-react-root{
