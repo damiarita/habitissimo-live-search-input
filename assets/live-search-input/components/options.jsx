@@ -13,7 +13,7 @@ class LiveSearchOptions extends React.Component{
             const optionComponents = Array();
             const that = this;
             this.props.options.forEach(function(option){
-            optionComponents.push(<li key={option.id} onClick={option.onClickCallBack}>{that.getHighlightedString(option.name)}{option.parentName?(<span> en {that.getHighlightedString(option.parentName)}</span>):''}</li>);
+            optionComponents.push(<li key={option.id} onMouseDown={option.onClickCallBack}>{that.getHighlightedString(option.name)}{option.parentName?(<span> en {that.getHighlightedString(option.parentName)}</span>):''}</li>);
             });
             return(
                 <ul>

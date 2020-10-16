@@ -11,12 +11,13 @@ class SamplePage extends React.Component{
             liveSearchOptions: undefined,
             liveSearchIsLoading: false,
             liveSearchInputContent: '',
-            liveSearchActiveSearch: false,
+            liveSearchHasFocus: false,
         };
 
         this.liveSearchAutocompleteApiUrl = props.habitissimoApiBaseUrl + 'autocomplete/category?tree_level[]=1&tree_level[]=2';
 
-        this.getLiveSearchAutocompleteOptions=this.getLiveSearchAutocompleteOptions.bind(this);
+        this.liveSearchFocusOut=this.liveSearchFocusOut.bind(this);
+        this.liveSearchFocusIn=this.liveSearchFocusIn.bind(this);
         this.liveSearchInputContentChange=this.liveSearchInputContentChange.bind(this);
     }
 
@@ -27,10 +28,11 @@ class SamplePage extends React.Component{
             options={this.state.liveSearchOptions}
             isLoading={this.state.liveSearchIsLoading}
             inputContent={this.state.liveSearchInputContent}
-            searchIsActive={this.state.liveSearchActiveSearch}
             minNumChars={1}
             onInputContentChange={this.liveSearchInputContentChange}
-            onFocus={this.getLiveSearchAutocompleteOptions}
+            onFocusIn={this.liveSearchFocusIn}
+            onFocusOut={this.liveSearchFocusOut}
+            hasFocus={this.state.liveSearchHasFocus}
         />
         );
     }
@@ -81,7 +83,6 @@ class SamplePage extends React.Component{
         return function(){
             this.setState({
                 liveSearchInputContent: name,
-                liveSearchActiveSearch: false,
             });
             console.log(id, normalizedName, name); //As an example, we put console.log It is asumed that when an option is selected,there has to be some kind of reaction by the rest of the page
         }.bind(this);
@@ -90,8 +91,16 @@ class SamplePage extends React.Component{
     liveSearchInputContentChange(e){
         this.setState({
             liveSearchInputContent: e.target.value,
-            liveSearchActiveSearch: true,
         });
+    }
+
+    liveSearchFocusIn(){
+        this.setState({liveSearchHasFocus: true});
+        this.getLiveSearchAutocompleteOptions();
+    }
+
+    liveSearchFocusOut(){
+        this.setState({liveSearchHasFocus: false});
     }
 }
 SamplePage.propTypes = {
