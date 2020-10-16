@@ -1,0 +1,9 @@
+@import '../../css/colors.scss';
+
+html {
+    background-image: repeating-linear-gradient(to left top, $gray-dark 0 5px, $gray-light 5px 10px);
+}
+
+#sample-page-react-root{
+    background-color: white;
+}
