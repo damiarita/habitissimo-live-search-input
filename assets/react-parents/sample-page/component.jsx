@@ -24,6 +24,8 @@ class SamplePage extends React.Component{
     render(){
         return (
         <LiveSearchUiKit
+            labelContent={this.props.liveSearchLabelContent}
+            inputPlaceHolder={this.props.liveSearchInputPlaceHolder}
             inputId='live-search-input'
             options={this.state.liveSearchOptions}
             isLoading={this.state.liveSearchIsLoading}
@@ -105,6 +107,8 @@ class SamplePage extends React.Component{
 }
 SamplePage.propTypes = {
     habitissimoApiBaseUrl: PropTypes.string.isRequired,
+    liveSearchLabelContent: PropTypes.string.isRequired,
+    liveSearchInputPlaceHolder: PropTypes.string.isRequired,
   };
 
 export default SamplePage;

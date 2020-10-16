@@ -12,9 +12,9 @@ class LiveSearchUiKit extends React.Component{
         return (
             <div>
                 <label htmlFor={this.props.inputId}>
-                    Encuentra profesionales de confianza
+                   {this.props.labelContent}
                 </label>
-                <input id={this.props.inputId} value={this.props.inputContent} onFocus={this.props.onFocusIn} onBlur={this.props.onFocusOut} onChange={this.props.onInputContentChange} />
+                <input placeholder={this.props.inputPlaceHolder} id={this.props.inputId} value={this.props.inputContent} onFocus={this.props.onFocusIn} onBlur={this.props.onFocusOut} onChange={this.props.onInputContentChange} />
                 {(this.minNumChars<=this.props.inputContent.length && this.props.hasFocus)?<LiveSearchOptions options={this.getFilteredOptions()} inputContent={this.props.inputContent} />:''}
             </div>
         );
@@ -39,6 +39,8 @@ class LiveSearchUiKit extends React.Component{
     }
 }
 LiveSearchUiKit.propTypes = {
+    labelContent: PropTypes.string.isRequired,
+    inputPlaceHolder: PropTypes.string.isRequired,
     inputId: PropTypes.string.isRequired,
     options:  PropTypes.arrayOf(
         PropTypes.shape({
