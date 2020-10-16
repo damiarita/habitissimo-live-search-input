@@ -9,19 +9,16 @@ class LiveSearchOptions extends React.Component{
     }
 
     render(){
-        if(this.props.options.length>0){
-            const optionComponents = Array();
-            const that = this;
-            this.props.options.forEach(function(option){
-            optionComponents.push(<li className="livesearch-option" key={option.id} onMouseDown={option.onClickCallBack}>{that.getHighlightedString(option.name)}{option.parentName?(<span className="livesearch-parentName"> en {that.getHighlightedString(option.parentName)}</span>):''}</li>);
-            });
-            return(
-                <ul className="livesearch-list">
-                    {optionComponents}
-                </ul>
-            );
-        }
-        return '';
+        const optionComponents = Array();
+        const that = this;
+        this.props.options.forEach(function(option, index){
+        optionComponents.push(<li className={'livesearch-option' + ( index===that.props.preSelectedOption?' livesearch-option-preselected':'' )} key={option.id} onMouseDown={option.onClickCallBack}>{that.getHighlightedString(option.name)}{option.parentName?(<span className="livesearch-parentName"> en {that.getHighlightedString(option.parentName)}</span>):''}</li>);
+        });
+        return(
+            <ul className={'livesearch-list ' + ( (this.props.forceHidden || this.props.options.length===0)?'livesearch-list-hidden':'' )}>
+                {optionComponents}
+            </ul>
+        );
     }
 
     getHighlightedString(name){
@@ -56,7 +53,9 @@ LiveSearchOptions.propTypes = {
             onClickCallBack: PropTypes.func.isRequired,
         })
     ).isRequired,
-    inputContent: PropTypes.string.isRequired
+    inputContent: PropTypes.string.isRequired,
+    forceHidden: PropTypes.bool.isRequired,
+    preSelectedOption: PropTypes.number.isRequired,
   };
 
 export default LiveSearchOptions;

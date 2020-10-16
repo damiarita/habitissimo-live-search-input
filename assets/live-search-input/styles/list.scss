@@ -7,4 +7,12 @@
     list-style: none;
     padding-inline-start: 0;
     background: white;
+    max-height: 168px;
+    overflow-y: scroll;
+    transition: transform 0.25s linear;
+
+    &.livesearch-list-hidden{
+        transform: scaleY(0.5) translateY(-50%);
+        visibility: hidden;
+    }
 }

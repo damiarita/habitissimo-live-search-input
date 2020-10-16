@@ -5,7 +5,7 @@
     padding: 10px 1em;
     cursor: pointer;
 
-    &:hover{
+    &:hover, &.livesearch-option-preselected{
         background-color: $gray-lightest;
     }
 

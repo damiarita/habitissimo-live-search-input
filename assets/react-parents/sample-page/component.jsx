@@ -12,6 +12,7 @@ class SamplePage extends React.Component{
             liveSearchIsLoading: false,
             liveSearchInputContent: '',
             liveSearchHasFocus: false,
+            liveSearchPreselectedOption: -1,
         };
 
         this.liveSearchAutocompleteApiUrl = props.habitissimoApiBaseUrl + 'autocomplete/category?tree_level[]=1&tree_level[]=2';
@@ -19,6 +20,7 @@ class SamplePage extends React.Component{
         this.liveSearchFocusOut=this.liveSearchFocusOut.bind(this);
         this.liveSearchFocusIn=this.liveSearchFocusIn.bind(this);
         this.liveSearchInputContentChange=this.liveSearchInputContentChange.bind(this);
+        this.changePreselectedOption=this.changePreselectedOption.bind(this);
     }
 
     render(){
@@ -35,6 +37,8 @@ class SamplePage extends React.Component{
             onFocusIn={this.liveSearchFocusIn}
             onFocusOut={this.liveSearchFocusOut}
             hasFocus={this.state.liveSearchHasFocus}
+            preSelectedOption={this.state.liveSearchPreselectedOption}
+            changePreselectedOption={this.changePreselectedOption}
         />
         );
     }
@@ -93,6 +97,13 @@ class SamplePage extends React.Component{
     liveSearchInputContentChange(e){
         this.setState({
             liveSearchInputContent: e.target.value,
+            liveSearchPreselectedOption: -1,
+        });
+    }
+
+    changePreselectedOption(numberOfSteps){
+        this.setState({
+            liveSearchPreselectedOption: Math.max(-1, this.state.liveSearchPreselectedOption+numberOfSteps)
         });
     }
 

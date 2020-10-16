@@ -8,6 +8,8 @@ class LiveSearchUiKit extends React.Component{
     constructor(props){
         super(props);
         this.minNumChars=this.props.minNumChars||2;
+
+        this.handleKeyDown=this.handleKeyDown.bind(this);
     }
 
     render(){
@@ -17,9 +19,9 @@ class LiveSearchUiKit extends React.Component{
                    {this.props.labelContent}
                 </label>
                 <div className="livesearch-wrapper">
-                    <input  className="livesearch-input" placeholder={this.props.inputPlaceHolder} id={this.props.inputId} value={this.props.inputContent} onFocus={this.props.onFocusIn} onBlur={this.props.onFocusOut} onChange={this.props.onInputContentChange} />
+                    <input  className="livesearch-input" placeholder={this.props.inputPlaceHolder} id={this.props.inputId} value={this.props.inputContent} onFocus={this.props.onFocusIn} onBlur={this.props.onFocusOut} onChange={this.props.onInputContentChange} onKeyDown={this.handleKeyDown} />
                     {this.props.isLoading?<LiveSearchSpinner/>:<LiveSearchLens />}
-                    {(this.minNumChars<=this.props.inputContent.length && this.props.hasFocus)?<LiveSearchOptions options={this.getFilteredOptions()} inputContent={this.props.inputContent} />:''}
+                    <LiveSearchOptions options={this.getFilteredOptions()} preSelectedOption={this.props.preSelectedOption} inputContent={this.props.inputContent} forceHidden={this.minNumChars>this.props.inputContent.length || !this.props.hasFocus} />
                 </div>
             </div>
         );
@@ -42,6 +44,33 @@ class LiveSearchUiKit extends React.Component{
         }
         return Array();
     }
+
+    handleKeyDown(e){
+        const tabKeyCode = 9;
+        const enterKeyCode = 13;
+        const arrowUpKeyCode = 38;
+        const arrowDownKeyCode = 40;
+        switch( e.keyCode ){
+            case tabKeyCode:
+            case enterKeyCode:
+                this.acceptNthOption( Math.max(0, this.props.preSelectedOption) );
+                e.currentTarget.blur();
+                break;
+            case arrowUpKeyCode:
+                this.props.changePreselectedOption(-1);
+                break;
+            case arrowDownKeyCode:
+                this.props.changePreselectedOption(1);
+                break;
+        }
+    }
+
+    acceptNthOption(n){
+        const filteredOptions = this.getFilteredOptions();
+        if( filteredOptions.length>n ){
+            filteredOptions[n].onClickCallBack();
+        }
+    }
 }
 LiveSearchUiKit.propTypes = {
     labelContent: PropTypes.string.isRequired,
@@ -62,7 +91,9 @@ LiveSearchUiKit.propTypes = {
     onInputContentChange: PropTypes.func.isRequired,
     onFocusIn: PropTypes.func.isRequired,
     onFocusOut: PropTypes.func.isRequired,
-    hasFocus: PropTypes.bool.isRequired
+    hasFocus: PropTypes.bool.isRequired,
+    preSelectedOption:PropTypes.number.isRequired,
+    changePreselectedOption:PropTypes.func.isRequired,
   };
 
 export default LiveSearchUiKit;
