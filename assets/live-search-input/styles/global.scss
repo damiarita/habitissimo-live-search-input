@@ -9,9 +9,10 @@
     padding: 1em;
 }
 
+/*Chrome adds a black outlinte on focus by default*/
 *,*:focus,*:hover{
     outline:none;
-}/*Chrome adds a black outlinte on focus by default*/
+}
 
 @import './label.scss';
 @import './wrapper.scss';
