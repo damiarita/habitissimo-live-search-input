@@ -1,6 +1,16 @@
-{% extends 'page-with-live-search-input.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('live-search-input-sample-page') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('live-search-input-sample-page') }}
+{% endblock %}
 
 {% block body %}
-    <div id="live-search-input-container" {% if props is defined and props is not empty %} data-props="{{props|json_encode()|escape('html_attr')}}" {% endif %} {% if state is defined and state is not empty %} data-state="{{state|json_encode()|escape('html_attr')}}" {% endif %}>
+    <div id="sample-page-react-root" {% if props is defined and props is not empty %} data-props="{{props|json_encode()|escape('html_attr')}}" {% endif %} {% if state is defined and state is not empty %} data-state="{{state|json_encode()|escape('html_attr')}}" {% endif %}>
     </div>
 {% endblock %}

@@ -16,7 +16,6 @@ class BaseController extends AbstractController
         return $this->render('live-search-input-example.html.twig', array(
             'props'=>array(
                 'habitissimoApiBaseUrl'=>$_ENV['API'],
-                'inputId'=>'category-live-search-input',
             ),
         ));
     }

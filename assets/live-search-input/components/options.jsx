@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TransparentComponent from '../../../tools/generic-components/transparent';
+import TransparentComponent from '../../tools/generic-components/transparent';
 
 class LiveSearchOptions extends React.Component{
     constructor(props){
