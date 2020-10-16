@@ -10,11 +10,11 @@ class LiveSearchUiKit extends React.Component{
 
     render(){
         return (
-            <div>
-                <label htmlFor={this.props.inputId}>
+            <div className="livesearch">
+                <label htmlFor={this.props.inputId} className="livesearch-label">
                    {this.props.labelContent}
                 </label>
-                <input placeholder={this.props.inputPlaceHolder} id={this.props.inputId} value={this.props.inputContent} onFocus={this.props.onFocusIn} onBlur={this.props.onFocusOut} onChange={this.props.onInputContentChange} />
+                <input  className="livesearch-input" placeholder={this.props.inputPlaceHolder} id={this.props.inputId} value={this.props.inputContent} onFocus={this.props.onFocusIn} onBlur={this.props.onFocusOut} onChange={this.props.onInputContentChange} />
                 {(this.minNumChars<=this.props.inputContent.length && this.props.hasFocus)?<LiveSearchOptions options={this.getFilteredOptions()} inputContent={this.props.inputContent} />:''}
             </div>
         );

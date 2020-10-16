@@ -1,5 +1,12 @@
 @import '../../css/colors.scss';
 
+@import '~fontsource-montserrat/latin-400-normal.css';
+@import '~fontsource-montserrat/latin-600-normal.css';
+
+.livesearch{
+    font-family: Montserrat;
+}
+
 @import './label.scss';
 @import './input.scss';
 @import './options.scss';
