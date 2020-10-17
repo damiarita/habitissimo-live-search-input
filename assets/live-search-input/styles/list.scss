@@ -8,7 +8,7 @@
     padding-inline-start: 0;
     background: white;
     max-height: 168px;
-    overflow-y: scroll;
+    overflow-y: auto;
     transition: transform 0.25s linear;
 
     &.livesearch-list-hidden{
