@@ -25,7 +25,7 @@ class SamplePage extends React.Component{
             labelContent={this.props.liveSearchLabelContent}
             inputPlaceHolder={this.props.liveSearchInputPlaceHolder}
             inputId='live-search-input'
-            options={this.state.liveSearch.options}
+            filteredOptions={this.liveSearchStateManager.getFilteredOptions()}
             isLoading={this.state.liveSearch.isLoading}
             inputContent={this.state.liveSearch.inputContent}
             minNumChars={1}

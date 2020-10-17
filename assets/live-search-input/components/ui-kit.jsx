@@ -21,28 +21,10 @@ class LiveSearchUiKit extends React.Component{
                 <div className="livesearch-wrapper">
                     <input  className="livesearch-input" placeholder={this.props.inputPlaceHolder} id={this.props.inputId} value={this.props.inputContent} onFocus={this.props.onFocusIn} onBlur={this.props.onFocusOut} onChange={this.props.onInputContentChange} onKeyDown={this.handleKeyDown} />
                     {this.props.isLoading?<LiveSearchSpinner/>:<LiveSearchLens />}
-                    <LiveSearchOptions options={this.getFilteredOptions()} preSelectedOption={this.props.preSelectedOption} inputContent={this.props.inputContent} forceHidden={this.minNumChars>this.props.inputContent.length || !this.props.hasFocus} />
+                    <LiveSearchOptions options={this.props.filteredOptions} preSelectedOption={this.props.preSelectedOption} inputContent={this.props.inputContent} forceHidden={this.minNumChars>this.props.inputContent.length || !this.props.hasFocus} />
                 </div>
             </div>
         );
-    }
-
-    getFilteredOptions(){
-        if( this.props.options ){
-            const inputContentLower = this.props.inputContent.toLowerCase();
-            return this.props.options.filter(function(option){
-                if(option.name.toLowerCase().indexOf(inputContentLower)>=0){ //inputContentLower is included in option.name
-                    return true;
-                }
-                if(option.parentName){ //If the option has a parentName
-                    if(option.parentName.toLowerCase().indexOf(inputContentLower)>=0){ //inputContentLower is included in option.parentName
-                        return true;
-                    }
-                }
-                return false;
-            });
-        }
-        return Array();
     }
 
     handleKeyDown(e){
@@ -66,9 +48,8 @@ class LiveSearchUiKit extends React.Component{
     }
 
     acceptNthOption(n){
-        const filteredOptions = this.getFilteredOptions();
-        if( filteredOptions.length>n ){
-            filteredOptions[n].onClickCallBack();
+        if( this.props.filteredOptions.length>n ){
+            this.props.filteredOptions[n].onClickCallBack();
         }
     }
 }
@@ -76,7 +57,7 @@ LiveSearchUiKit.propTypes = {
     labelContent: PropTypes.string.isRequired,
     inputPlaceHolder: PropTypes.string.isRequired,
     inputId: PropTypes.string.isRequired,
-    options:  PropTypes.arrayOf(
+    filteredOptions:  PropTypes.arrayOf(
         PropTypes.shape({
             name: PropTypes.string.isRequired,
             parentName: PropTypes.string,
@@ -84,7 +65,7 @@ LiveSearchUiKit.propTypes = {
             normalizedName: PropTypes.string.isRequired,
             onClickCallBack: PropTypes.func.isRequired,
         })
-    ),
+    ).isRequired,
     isLoading: PropTypes.bool.isRequired,
     inputContent: PropTypes.string.isRequired,
     minNumChars: PropTypes.number,

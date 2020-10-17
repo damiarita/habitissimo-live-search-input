@@ -63,6 +63,24 @@ export default class LiveSearchStateManager extends GenericStateManager{
         }
     }  
 
+    getFilteredOptions(){
+        if( this.state.options ){
+            const inputContentLower = this.state.inputContent.toLowerCase();
+            return this.state.options.filter(function(option){
+                if(option.name.toLowerCase().indexOf(inputContentLower)>=0){ //inputContentLower is included in option.name
+                    return true;
+                }
+                if(option.parentName){ //If the option has a parentName
+                    if(option.parentName.toLowerCase().indexOf(inputContentLower)>=0){ //inputContentLower is included in option.parentName
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }
+        return Array();
+    }
+
     getOnSelectedOptionCallback(id, normalizedName, name){
         return function(){
             this.state.inputContent = name;
