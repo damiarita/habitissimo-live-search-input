@@ -81,7 +81,7 @@ export default class LiveSearchStateManager extends GenericStateManager{
 
     getOnSelectedOptionCallback(id, normalizedName, name){
         return function(){
-            yhis.updateInputContent(name);
+            this.updateInputContent(name);
             this.selectecOptionCallBack(id, normalizedName, name);
         }.bind(this);
     }
