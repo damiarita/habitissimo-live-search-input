@@ -35,6 +35,7 @@ class SamplePage extends React.Component{
             hasFocus={this.state.liveSearch.hasFocus}
             preSelectedOption={this.state.liveSearch.preselectedOption}
             changePreselectedOption={this.liveSearchStateManager.changePreselectedOption}
+            optionChildNameFormat={this.props.liveSearchOptionChildNameFormat}
         />
         );
     }
@@ -43,6 +44,7 @@ SamplePage.propTypes = {
     habitissimoApiBaseUrl: PropTypes.string.isRequired,
     liveSearchLabelContent: PropTypes.string.isRequired,
     liveSearchInputPlaceHolder: PropTypes.string.isRequired,
+    liveSearchOptionChildNameFormat: PropTypes.string.isRequired,
   };
 
 export default SamplePage;

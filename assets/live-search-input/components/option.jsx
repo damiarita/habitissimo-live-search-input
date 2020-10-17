@@ -11,7 +11,7 @@ class LiveSearchOption extends React.Component{
     render(){
         return(
             <li className={'livesearch-option' + ( this.props.isPreselected?' livesearch-option-preselected':'' )} onMouseDown={this.props.onClickCallBack}>
-                {this.getHighlightedString(this.props.name)}{this.props.parentName?(<span className="livesearch-parentName"> en {this.getHighlightedString(this.props.parentName)}</span>):''}
+                {this.getHighlightedString(this.props.name)}{this.props.parentName?(<span className="livesearch-parentName">{this.getHighlightedString( this.props.childNameFormat.replace('%childName%',this.props.parentName) )}</span>):''}
             </li>
         );
     }
@@ -43,6 +43,7 @@ LiveSearchOption.propTypes={
     onClickCallBack: PropTypes.func.isRequired,
     highlightedContent: PropTypes.string.isRequired,
     isPreselected: PropTypes.bool.isRequired,
+    childNameFormat: PropTypes.string.isRequired,
 };
 
 export default LiveSearchOption;

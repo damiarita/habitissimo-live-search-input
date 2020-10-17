@@ -24,7 +24,7 @@ class LiveSearchUiKit extends React.Component{
                     {this.props.isLoading?<LiveSearchSpinner/>:<LiveSearchLens />}
                     <LiveSearchList isHidden={this.minNumChars>this.props.inputContent.length || !this.props.hasFocus || this.props.filteredOptions.length===0} >
                         {this.props.filteredOptions.map(function(option, index){
-                            return (<LiveSearchOption key={option.id} name={option.name} parentName={option.parentName} onClickCallBack={option.onClickCallBack} highlightedContent={this.props.inputContent} isPreselected={this.props.preSelectedOption===index} />);
+                            return (<LiveSearchOption key={option.id} name={option.name} parentName={option.parentName} onClickCallBack={option.onClickCallBack} highlightedContent={this.props.inputContent} isPreselected={this.props.preSelectedOption===index} childNameFormat={this.props.optionChildNameFormat} />);
                         }.bind(this))}
                     </LiveSearchList>
                 </div>
@@ -79,6 +79,7 @@ LiveSearchUiKit.propTypes = {
     hasFocus: PropTypes.bool.isRequired,
     preSelectedOption:PropTypes.number.isRequired,
     changePreselectedOption:PropTypes.func.isRequired,
+    optionChildNameFormat:PropTypes.string.isRequired,
   };
 
 export default LiveSearchUiKit;
