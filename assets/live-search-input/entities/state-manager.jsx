@@ -97,7 +97,8 @@ export default class LiveSearchStateManager extends GenericStateManager{
     }
 
     changePreselectedOption(numberOfSteps){
-        this.state.preselectedOption = Math.max(-1, this.state.preselectedOption+numberOfSteps);
+        const numberOfFilteredOptions = ( this.getFilteredOptions() ).length;
+        this.state.preselectedOption = Math.min( numberOfFilteredOptions-1, Math.max(0,this.state.preselectedOption+numberOfSteps) );
         this.updateState();
     }
 
