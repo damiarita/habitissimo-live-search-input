@@ -1,26 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LiveSearchUiKit from '../../live-search-input/components/ui-kit';
-import getAjaxPromise from '../../tools/ajax/ajax-promise';
+import LiveSearchStateManager from '../../live-search-input/entities/state-manager';
 
 class SamplePage extends React.Component{
     constructor(props){
         super(props);
 
+        this.liveSearchStateManager = new LiveSearchStateManager(
+            this.setState.bind(this),
+            'liveSearch',
+            props.habitissimoApiBaseUrl,
+            function(id, normalizedName, name){console.log(id, normalizedName, name);} //As an example, we just console.log If this component has to interact with others when a option is selected, this is the place
+            );
+
         this.state={
-            liveSearchOptions: undefined,
-            liveSearchIsLoading: false,
-            liveSearchInputContent: '',
-            liveSearchHasFocus: false,
-            liveSearchPreselectedOption: -1,
+            liveSearch: this.liveSearchStateManager.state,
         };
-
-        this.liveSearchAutocompleteApiUrl = props.habitissimoApiBaseUrl + 'autocomplete/category?tree_level[]=1&tree_level[]=2';
-
-        this.liveSearchFocusOut=this.liveSearchFocusOut.bind(this);
-        this.liveSearchFocusIn=this.liveSearchFocusIn.bind(this);
-        this.liveSearchInputContentChange=this.liveSearchInputContentChange.bind(this);
-        this.changePreselectedOption=this.changePreselectedOption.bind(this);
     }
 
     render(){
@@ -29,91 +25,18 @@ class SamplePage extends React.Component{
             labelContent={this.props.liveSearchLabelContent}
             inputPlaceHolder={this.props.liveSearchInputPlaceHolder}
             inputId='live-search-input'
-            options={this.state.liveSearchOptions}
-            isLoading={this.state.liveSearchIsLoading}
-            inputContent={this.state.liveSearchInputContent}
+            options={this.state.liveSearch.options}
+            isLoading={this.state.liveSearch.isLoading}
+            inputContent={this.state.liveSearch.inputContent}
             minNumChars={1}
-            onInputContentChange={this.liveSearchInputContentChange}
-            onFocusIn={this.liveSearchFocusIn}
-            onFocusOut={this.liveSearchFocusOut}
-            hasFocus={this.state.liveSearchHasFocus}
-            preSelectedOption={this.state.liveSearchPreselectedOption}
-            changePreselectedOption={this.changePreselectedOption}
+            onInputContentChange={this.liveSearchStateManager.onInputContentChange}
+            onFocusIn={this.liveSearchStateManager.onFocusIn}
+            onFocusOut={this.liveSearchStateManager.onFocusOut}
+            hasFocus={this.state.liveSearch.hasFocus}
+            preSelectedOption={this.state.liveSearch.preselectedOption}
+            changePreselectedOption={this.liveSearchStateManager.changePreselectedOption}
         />
         );
-    }
-
-    getLiveSearchAutocompleteOptions(){
-        if( this.state.liveSearchOptions===undefined){
-
-            this.setState({liveSearchIsLoading:true});
-
-            const autocompleteOptionsPromise = getAjaxPromise({
-                url: this.liveSearchAutocompleteApiUrl,
-            });
-
-            const that = this;
-            autocompleteOptionsPromise.then(function(responseString){
-                const responseOptions = JSON.parse(responseString);
-                const options = Array();
-                responseOptions.forEach(function(responseOption){
-                    options.push({
-                        name:responseOption.name,
-                        id: responseOption.id,
-                        normalizedName: responseOption.normalized_name,
-                        onClickCallBack: that.getOnSelectedOptionCallback(responseOption.id, responseOption.normalized_name, responseOption.name),
-                    });
-                    if( responseOption.children ){
-                        responseOption.children.forEach(function(responseSubOption){
-                            options.push({
-                                name:responseSubOption.name,
-                                id: responseSubOption.id,
-                                normalizedName: responseSubOption.normalized_name,
-                                parentName: responseOption.name,
-                                onClickCallBack: that.getOnSelectedOptionCallback(responseSubOption.id, responseSubOption.normalized_name, responseSubOption.name),
-                            });
-                        });
-                    }
-                });
-
-                that.setState({
-                    liveSearchOptions: options,
-                    liveSearchIsLoading: false
-                });
-            });
-
-        }
-    }  
-
-    getOnSelectedOptionCallback(id, normalizedName, name){
-        return function(){
-            this.setState({
-                liveSearchInputContent: name,
-            });
-            console.log(id, normalizedName, name); //As an example, we put console.log It is asumed that when an option is selected,there has to be some kind of reaction by the rest of the page
-        }.bind(this);
-    }
-
-    liveSearchInputContentChange(e){
-        this.setState({
-            liveSearchInputContent: e.target.value,
-            liveSearchPreselectedOption: -1,
-        });
-    }
-
-    changePreselectedOption(numberOfSteps){
-        this.setState({
-            liveSearchPreselectedOption: Math.max(-1, this.state.liveSearchPreselectedOption+numberOfSteps)
-        });
-    }
-
-    liveSearchFocusIn(){
-        this.setState({liveSearchHasFocus: true});
-        this.getLiveSearchAutocompleteOptions();
-    }
-
-    liveSearchFocusOut(){
-        this.setState({liveSearchHasFocus: false});
     }
 }
 SamplePage.propTypes = {
