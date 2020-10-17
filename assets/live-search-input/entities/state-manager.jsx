@@ -39,7 +39,6 @@ export default class LiveSearchStateManager extends GenericStateManager{
                     options.push({
                         name:responseOption.name,
                         id: responseOption.id,
-                        normalizedName: responseOption.normalized_name,
                         onClickCallBack: that.getOnSelectedOptionCallback(responseOption.id, responseOption.normalized_name, responseOption.name),
                     });
                     if( responseOption.children ){
@@ -83,15 +82,18 @@ export default class LiveSearchStateManager extends GenericStateManager{
 
     getOnSelectedOptionCallback(id, normalizedName, name){
         return function(){
-            this.state.inputContent = name;
-            this.updateState();
+            yhis.updateInputContent(name);
             this.selectecOptionCallBack(id, normalizedName, name);
         }.bind(this);
     }
     
 
     onInputContentChange(e){
-        this.state.inputContent = e.target.value;
+        this.updateInputContent(e.target.value);
+    }
+
+    updateInputContent(content){
+        this.state.inputContent = content;
         this.state.preselectedOption = -1;
         this.updateState();
     }

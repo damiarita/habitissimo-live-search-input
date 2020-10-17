@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LiveSearchOptions from './options';
+import LiveSearchList from './list';
 import LiveSearchLens from './lens';
 import LiveSearchSpinner from './spinner';
+import LiveSearchOption from './option';
 
 class LiveSearchUiKit extends React.Component{
     constructor(props){
@@ -21,7 +22,11 @@ class LiveSearchUiKit extends React.Component{
                 <div className="livesearch-wrapper">
                     <input  className="livesearch-input" placeholder={this.props.inputPlaceHolder} id={this.props.inputId} value={this.props.inputContent} onFocus={this.props.onFocusIn} onBlur={this.props.onFocusOut} onChange={this.props.onInputContentChange} onKeyDown={this.handleKeyDown} />
                     {this.props.isLoading?<LiveSearchSpinner/>:<LiveSearchLens />}
-                    <LiveSearchOptions options={this.props.filteredOptions} preSelectedOption={this.props.preSelectedOption} inputContent={this.props.inputContent} forceHidden={this.minNumChars>this.props.inputContent.length || !this.props.hasFocus} />
+                    <LiveSearchList isHidden={this.minNumChars>this.props.inputContent.length || !this.props.hasFocus || this.props.filteredOptions.length===0} >
+                        {this.props.filteredOptions.map(function(option, index){
+                            return (<LiveSearchOption key={option.id} name={option.name} parentName={option.parentName} onClickCallBack={option.onClickCallBack} highlightedContent={this.props.inputContent} isPreselected={this.props.preSelectedOption===index} />);
+                        }.bind(this))}
+                    </LiveSearchList>
                 </div>
             </div>
         );
@@ -62,7 +67,6 @@ LiveSearchUiKit.propTypes = {
             name: PropTypes.string.isRequired,
             parentName: PropTypes.string,
             id: PropTypes.string.isRequired,
-            normalizedName: PropTypes.string.isRequired,
             onClickCallBack: PropTypes.func.isRequired,
         })
     ).isRequired,
