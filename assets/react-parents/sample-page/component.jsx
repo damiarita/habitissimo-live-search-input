@@ -10,7 +10,7 @@ class SamplePage extends React.Component{
         this.liveSearchStateManager = new LiveSearchStateManager(
             this.setState.bind(this),
             'liveSearch',
-            props.habitissimoApiBaseUrl,
+            props.habitissimoApiUrl,
             function(id, normalizedName, name){console.log(id, normalizedName, name);} //As an example, we just console.log If this component has to interact with others when a option is selected, this is the place
             );
 
@@ -41,7 +41,7 @@ class SamplePage extends React.Component{
     }
 }
 SamplePage.propTypes = {
-    habitissimoApiBaseUrl: PropTypes.string.isRequired,
+    habitissimoApiUrl: PropTypes.string.isRequired,
     liveSearchLabelContent: PropTypes.string.isRequired,
     liveSearchInputPlaceHolder: PropTypes.string.isRequired,
     liveSearchOptionChildNameFormat: PropTypes.string.isRequired,

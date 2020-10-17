@@ -2,7 +2,7 @@ import GenericStateManager from '../../tools/react/state-manager';
 import getAjaxPromise from '../../tools/ajax/ajax-promise';
 
 export default class LiveSearchStateManager extends GenericStateManager{
-    constructor(setStateCallback, stateProperty, habitissimoApiBaseUrl, selectecOptionCallBack){
+    constructor(setStateCallback, stateProperty, autocompleteApiUrl, selectecOptionCallBack){
         super(setStateCallback, stateProperty);
         this.state={
             options: undefined,
@@ -11,7 +11,7 @@ export default class LiveSearchStateManager extends GenericStateManager{
             hasFocus: false,
             preselectedOption: -1,
         };
-        this.autocompleteApiUrl = habitissimoApiBaseUrl + 'autocomplete/category?tree_level[]=1&tree_level[]=2';
+        this.autocompleteApiUrl = autocompleteApiUrl;
         this.selectecOptionCallBack = selectecOptionCallBack;
 
         this.onInputContentChange=this.onInputContentChange.bind(this);
