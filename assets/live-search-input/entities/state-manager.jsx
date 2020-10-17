@@ -46,7 +46,6 @@ export default class LiveSearchStateManager extends GenericStateManager{
                             options.push({
                                 name:responseSubOption.name,
                                 id: responseSubOption.id,
-                                normalizedName: responseSubOption.normalized_name,
                                 parentName: responseOption.name,
                                 onClickCallBack: that.getOnSelectedOptionCallback(responseSubOption.id, responseSubOption.normalized_name, responseSubOption.name),
                             });
